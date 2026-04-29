@@ -19,11 +19,17 @@ class MainActivity : Activity() {
         btn.setOnClickListener {
 
             Thread {
-                val url = "http://192.168.1.10:8000/index.php?key=MY_SECRET_KEY&q=${input.text}"
-                val data = URL(url).readText()
+                try {
+                    val url = "http://192.168.1.10:8000/index.php"
+                    val data = URL(url).readText()
 
-                runOnUiThread {
-                    tv.text = formatJson(data)
+                    runOnUiThread {
+                        tv.text = formatJson(data)
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        tv.text = "Error: ${e.message}"
+                    }
                 }
             }.start()
         }
